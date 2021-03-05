@@ -21,6 +21,7 @@ export const NaverLogo = ({ className }) => (
   <NaverLogoDiv>
     <Svg
       viewBox="0 0 146 37"
+      className={className}
     >
       <path
         fillRule="evenodd"

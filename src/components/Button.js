@@ -9,6 +9,9 @@ const Button = styled.button`
   line-height: 2.4rem;
   text-align: center;
   border: none;
+  padding: 1.2rem;
+  width: 100%;
+  font-family: inherit;
 `;
 
 Button.Secondary = styled(Button)`
