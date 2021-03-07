@@ -22,7 +22,7 @@ LoginComp.Modal = styled.div`
   justify-content: space-evenly;
   padding: ${({ theme }) => theme.spacing.large};
 
-  .logo-login-page {
+  svg {
     width: 23.5rem;
     height: 6rem;
   }
@@ -31,7 +31,7 @@ LoginComp.Modal = styled.div`
 const LoginPage = () => (
   <LoginComp>
     <LoginComp.Modal>
-      <NaverLogo className="logo-login-page" />
+      <NaverLogo />
       <Input placeholder="E-mail" label="E-mail"/>
       <Input placeholder="Senha" label="Senha"/>
       <Button>Entrar</Button>
