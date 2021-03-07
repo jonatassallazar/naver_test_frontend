@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Input } from './Input';
 import { BackIcon } from './Icon';
 import Button from './Button';
+import ModalPage from './ModalPage';
 
 const Form = styled.form`
   margin: 0 auto;
@@ -57,6 +58,10 @@ const NaverForm = (props) => {
 
   return (
     <Form>
+      <ModalPage
+        title="Excluir Naver"
+        description="Tem certeza que deseja excluir este Naver?"
+      />
       <Form.Header>
         <BackIcon />
         <h2>{props.name ? 'Editar Naver' : 'Adicionar Naver'}</h2>

@@ -12,12 +12,19 @@ const Button = styled.button`
   padding: 1rem 5rem;
   width: 100%;
   font-family: inherit;
+  cursor: pointer;  
 `;
 
 Button.Secondary = styled(Button)`
   background: none;
   color: ${({theme}) => theme.colors.text};
   padding: 0;
+`;
+
+Button.Outlined = styled(Button)`
+  background: none;
+  color: ${({theme}) => theme.colors.text};
+  border: 1px solid ${({theme}) => theme.colors.text};
 `;
 
 export default Button;
