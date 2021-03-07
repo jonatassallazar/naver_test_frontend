@@ -9,7 +9,7 @@ const Button = styled.button`
   line-height: 2.4rem;
   text-align: center;
   border: none;
-  padding: 1.2rem;
+  padding: 1rem 5rem;
   width: 100%;
   font-family: inherit;
 `;
@@ -17,6 +17,7 @@ const Button = styled.button`
 Button.Secondary = styled(Button)`
   background: none;
   color: ${({theme}) => theme.colors.text};
+  padding: 0;
 `;
 
 export default Button;

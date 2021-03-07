@@ -15,8 +15,10 @@ const HeaderMain = styled.div`
 
 const Header = () => (
   <HeaderMain>
-      <NaverLogo />
-    <Button.Secondary>Sair</Button.Secondary>
+    <NaverLogo />
+    <div>
+      <Button.Secondary>Sair</Button.Secondary>
+    </div>
   </HeaderMain>
 );
 
