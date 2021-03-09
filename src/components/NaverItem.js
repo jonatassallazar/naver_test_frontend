@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { TrashIcon, EditIcon } from './Icon';
 
@@ -6,8 +7,11 @@ const NaverProfile = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  width: 23.5%;
   padding: 0 0 ${({ theme }) => theme.spacing.medium} 0;
+
+  a {
+    text-decoration: none;
+  }
 `;
 
 NaverProfile.Img = styled.img`
@@ -19,6 +23,8 @@ NaverProfile.Name = styled.h3`
   font-size: 1.6rem;
   line-height: 1.8rem;
   margin: ${({ theme }) => theme.spacing.small} 0 0 0;
+  text-decoration: none;
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 NaverProfile.Role = styled.p`
@@ -26,6 +32,8 @@ NaverProfile.Role = styled.p`
   font-size: 1.6rem;
   line-height: 2.4rem;
   margin: ${({ theme }) => theme.spacing.tiny} 0 0 0;
+  text-decoration: none;
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 NaverProfile.Icons = styled.div`
@@ -33,17 +41,20 @@ NaverProfile.Icons = styled.div`
 
   svg {
     margin-right: ${({ theme }) => theme.spacing.small};
+    color: ${({ theme }) => theme.colors.primary};
   }
 `;
 
-const NaverItem = ({ photo, name, role }) => (
+const NaverItem = ({ id, photo, name, role }) => (
   <NaverProfile>
-    <NaverProfile.Img alt={name} src={`img/${photo}.png`} />
-    <NaverProfile.Name>{name}</NaverProfile.Name>
-    <NaverProfile.Role>{role}</NaverProfile.Role>
+      <NaverProfile.Img alt={name} src={photo} />
+      <NaverProfile.Name>{name}</NaverProfile.Name>
+      <NaverProfile.Role>{role}</NaverProfile.Role>
     <NaverProfile.Icons>
       <TrashIcon />
+    <Link to={`/navers/edit/${id}`}>
       <EditIcon />
+    </Link>
     </NaverProfile.Icons>
   </NaverProfile>
 );

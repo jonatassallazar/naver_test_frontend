@@ -4,7 +4,7 @@ import Button from './Button';
 import { Input } from './Input';
 import { NaverLogo } from './NaverLogo';
 import { store } from '../App';
-import API from '../axios/instances';
+import API from '../axios/instance';
 
 const LoginComp = styled.div`
   display: flex;

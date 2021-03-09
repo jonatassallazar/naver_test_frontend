@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { Input } from './Input';
 import { BackIcon } from './Icon';
 import Button from './Button';
-import ModalPage from './ModalPage';
+import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 const Form = styled.form`
   margin: 0 auto;
@@ -49,22 +50,37 @@ Form.Button = styled.div`
 `;
 
 const NaverForm = (props) => {
-  const [name, setName] = useState(props.name || '');
-  const [role, setRole] = useState(props.role || '');
-  const [age, setAge] = useState(props.age || '');
-  const [companyTime, setCompanyTime] = useState(props.companyTime || '');
-  const [projects, setProjects] = useState(props.projects || '');
-  const [photoUrl, setPhotoUrl] = useState(props.photoUrl || '');
+  const [name, setName] = useState(props.naver ? props.naver.name : '');
+  const [role, setRole] = useState(props.naver ? props.naver.job_role : '');
+  const [age, setAge] = useState(props.naver ? 
+    moment(props.naver.birthdate).format('DD/MM/YYYY') : '',
+  );
+  const [companyTime, setCompanyTime] = useState(props.naver ? 
+    moment(props.naver.birthdate).format('DD/MM/YYYY') : '',
+  );
+  const [projects, setProjects] = useState(props.naver ? props.naver.project : '');
+  const [photoUrl, setPhotoUrl] = useState(props.naver ? props.naver.url : '');
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    props.onSubmit({
+      job_role: role,
+      admission_date: companyTime,
+      birthdate: age,
+      project: projects,
+      name,
+      url: photoUrl,
+    });
+  };
 
   return (
-    <Form>
-      <ModalPage
-        title="Excluir Naver"
-        description="Tem certeza que deseja excluir este Naver?"
-      />
+    <Form onSubmit={handleSubmit}>
       <Form.Header>
-        <BackIcon />
-        <h2>{props.name ? 'Editar Naver' : 'Adicionar Naver'}</h2>
+        <Link to="/navers">
+          <BackIcon />
+        </Link>
+        <h2>{props.naver ? 'Editar Naver' : 'Adicionar Naver'}</h2>
       </Form.Header>
       <Form.Input>
         <Input
@@ -115,7 +131,7 @@ const NaverForm = (props) => {
         />
       </Form.Input>
       <Form.Button>
-        <Button>Salvar</Button>
+        <Button type="submit">Salvar</Button>
       </Form.Button>
     </Form>
   );
