@@ -1,15 +1,20 @@
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import Button from './Button';
 import { Input } from './Input';
 import { NaverLogo } from './NaverLogo';
+import { store } from '../App';
+import API from '../axios/instances';
 
 const LoginComp = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
+  z-index: 1;
+  position: absolute;
+  top: 0;
 `;
 
 LoginComp.Modal = styled.div`
@@ -28,15 +33,48 @@ LoginComp.Modal = styled.div`
   }
 `;
 
-const LoginPage = () => (
-  <LoginComp>
-    <LoginComp.Modal>
-      <NaverLogo />
-      <Input placeholder="E-mail" label="E-mail"/>
-      <Input placeholder="Senha" label="Senha"/>
-      <Button>Entrar</Button>
-    </LoginComp.Modal>
-  </LoginComp>
-);
+const LoginPage = () => {
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+
+  const { setBearer } = useContext(store);
+
+  const handleLogin = () => {
+    const data = {
+      email: name,
+      password: password,
+    };
+
+    API({ method: 'post', url: '/users/login', data })
+      .then((res) => {
+        const bearerToken = res.data.token;
+        setBearer(bearerToken);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  return (
+    <LoginComp>
+      <LoginComp.Modal>
+        <NaverLogo />
+        <Input
+          placeholder="E-mail"
+          label="E-mail"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <Input
+          placeholder="Senha"
+          label="Senha"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button onClick={() => handleLogin()}>Entrar</Button>
+      </LoginComp.Modal>
+    </LoginComp>
+  );
+};
 
 export default LoginPage;

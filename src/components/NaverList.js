@@ -62,7 +62,7 @@ const NaverList = () => (
     </Navers.Menu>
     <Navers.Itens>
       {fixtureNavers.map((i) => (
-        <NaverItem photo={i.photo} name={i.name} role={i.role} />
+        <NaverItem key={`id_${i.name}`} photo={i.photo} name={i.name} role={i.role} />
       ))}
     </Navers.Itens>
   </Navers>
