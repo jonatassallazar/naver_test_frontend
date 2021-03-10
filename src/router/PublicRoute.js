@@ -1,13 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import { store } from '../App';
+import Header from '../components/Header';
 
 let isAuthenticated = false;
 
 export const PublicRoute = ({ component: Component, ...rest }) => {
-  const { bearer } = useContext(store);
+  const bearer = localStorage.getItem('@navers_test/bearer_id');
 
-  if (bearer) {
+  if (bearer !== null) {
     isAuthenticated = true;
   } else {
     isAuthenticated = false;
@@ -17,7 +17,14 @@ export const PublicRoute = ({ component: Component, ...rest }) => {
     <Route
       {...rest}
       component={(props) =>
-        isAuthenticated ? <Redirect to="/navers" /> : <Component {...props} />
+        isAuthenticated ? (
+          <Redirect to="/navers" />
+        ) : (
+          <>
+            <Header />
+            <Component {...props} />{' '}
+          </>
+        )
       }
     />
   );
