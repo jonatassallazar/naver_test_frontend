@@ -1,6 +1,5 @@
 import React, { createContext, useState } from 'react';
 import GlobalStyle from './components/GlobalStyle';
-import Header from './components/Header';
 import LoginPage from './components/LoginPage';
 import NaversList from './components/NaverList';
 import { ThemeProvider } from 'styled-components';
@@ -19,14 +18,13 @@ const initialState = {
 export const store = createContext(initialState);
 
 const App = () => {
-  const [bearer, setBearer] = useState('');
   const [navers, setNavers] = useState([]);
+  const [updated, setUpdated] = useState(false);
 
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <store.Provider value={{ bearer, setBearer, navers, setNavers }}>
-        <Header />
+      <store.Provider value={{ navers, setNavers, updated, setUpdated }}>
         <BrowserRouter>
           <Switch>
             <PublicRoute exact path="/" component={LoginPage} />

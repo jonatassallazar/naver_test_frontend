@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Link, useHistory } from 'react-router-dom';
 import { NaverLogo } from './NaverLogo';
 import Button from './Button';
 
@@ -13,13 +14,24 @@ const HeaderMain = styled.div`
   justify-content: space-between;
 `;
 
-const Header = () => (
+const Header = () => {
+
+  let history = useHistory();
+
+  const handleLogout = () => {
+    localStorage.removeItem('@navers_test/bearer_id');
+    history.push('/');
+  }
+
+return (
   <HeaderMain>
-    <NaverLogo />
+    <Link to="/">
+      <NaverLogo />
+    </Link>
     <div>
-      <Button.Secondary>Sair</Button.Secondary>
+      <Button.Secondary onClick={handleLogout}>Sair</Button.Secondary>
     </div>
   </HeaderMain>
-);
+)};
 
 export default Header;

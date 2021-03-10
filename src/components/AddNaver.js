@@ -5,9 +5,9 @@ import API from '../axios/instance';
 import { store } from '../App';
 
 const AddNaver = () => {
-  const { bearer } = useContext(store);
-
   let history = useHistory();
+
+  const { setUpdated } = useContext(store);
 
   return (
     <NaverForm
@@ -15,12 +15,10 @@ const AddNaver = () => {
         API({
           url: '/navers',
           method: 'post',
-          headers: {
-            Authorization: `Bearer ${bearer}`,
-          },
           data,
         })
           .then((res) => {
+            setUpdated(false);
             console.log(res);
           })
           .catch((err) => console.log(err));

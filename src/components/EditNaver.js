@@ -5,7 +5,7 @@ import { store } from '../App';
 import API from '../axios/instance';
 
 const EditNaver = (props) => {
-  const { navers, bearer } = useContext(store);
+  const { navers, setUpdated } = useContext(store);
   
   const naverSelected = navers.find((i) => i.id === props.match.params.id)
 
@@ -18,12 +18,10 @@ const EditNaver = (props) => {
       API({
         url: `/navers/${naverSelected.id}`,
         method: 'put',
-        headers: {
-          Authorization: `Bearer ${bearer}`,
-        },
         data,
       })
         .then((res) => {
+          setUpdated(false);
           console.log(res);
         })
         .catch((err) => console.log(err));

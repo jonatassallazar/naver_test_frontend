@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useHistory } from 'react-router-dom';
 import Button from './Button';
 import { Input } from './Input';
 import { NaverLogo } from './NaverLogo';
-import { store } from '../App';
 import API from '../axios/instance';
 
 const LoginComp = styled.div`
@@ -37,7 +37,7 @@ const LoginPage = () => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
 
-  const { setBearer } = useContext(store);
+  let history = useHistory();
 
   const handleLogin = () => {
     const data = {
@@ -48,7 +48,8 @@ const LoginPage = () => {
     API({ method: 'post', url: '/users/login', data })
       .then((res) => {
         const bearerToken = res.data.token;
-        setBearer(bearerToken);
+        localStorage.setItem('@navers_test/bearer_id', bearerToken)
+        history.push('/navers');
       })
       .catch((err) => console.log(err));
   };

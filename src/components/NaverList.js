@@ -35,20 +35,21 @@ Navers.Itens = styled.div`
 `;
 
 const NaverList = () => {
-  const { bearer, navers, setNavers } = useContext(store);
+  const { navers, setNavers, setUpdated, updated } = useContext(store);
 
   useEffect(() => {
-    API({
-      url: '/navers',
-      method: 'get',
-      headers: {
-        Authorization: `Bearer ${bearer}`,
-      },
-    })
-      .then((res) => {
-        setNavers(res.data);
+    if (!updated) {
+      API({
+        url: '/navers',
+        method: 'get',
       })
-      .catch((err) => console.log(err));
+        .then((res) => {
+          setNavers(res.data);
+          setUpdated(true);
+          console.log('run');
+        })
+        .catch((err) => console.log(err));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

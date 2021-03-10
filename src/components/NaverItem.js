@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { TrashIcon, EditIcon } from './Icon';
+import API from '../axios/instance';
+import NaverSelected from './NaverSelected';
 
 const NaverProfile = styled.div`
   display: flex;
@@ -9,8 +11,17 @@ const NaverProfile = styled.div`
   justify-content: space-evenly;
   padding: 0 0 ${({ theme }) => theme.spacing.medium} 0;
 
-  a {
-    text-decoration: none;
+  button {
+    border: inherit;
+    margin: 0;
+    padding: 0;
+    background: inherit;
+    cursor: pointer;
+    text-align: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    color: inherit;
+    font-family: inherit;
   }
 `;
 
@@ -39,24 +50,79 @@ NaverProfile.Role = styled.p`
 NaverProfile.Icons = styled.div`
   margin-top: ${({ theme }) => theme.spacing.small};
 
+  button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    background: none;
+  }
+
   svg {
     margin-right: ${({ theme }) => theme.spacing.small};
     color: ${({ theme }) => theme.colors.primary};
+    cursor: pointer;
   }
 `;
 
-const NaverItem = ({ id, photo, name, role }) => (
-  <NaverProfile>
-      <NaverProfile.Img alt={name} src={photo} />
-      <NaverProfile.Name>{name}</NaverProfile.Name>
-      <NaverProfile.Role>{role}</NaverProfile.Role>
-    <NaverProfile.Icons>
-      <TrashIcon />
-    <Link to={`/navers/edit/${id}`}>
-      <EditIcon />
-    </Link>
-    </NaverProfile.Icons>
-  </NaverProfile>
-);
+const NaverItem = ({ id, photo, name, role }) => {
+  const [showNaverModalSelected, setShowNaverModalSelected] = useState(false);
+  const [naverSelected, setNaverSelected] = useState('');
+
+  const handleDelete = () => {
+    API({
+      url: `/navers/${id}`,
+      method: 'delete',
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  const handleNaverShow = () => {
+    API({
+      url: `/navers/${id}`,
+      method: 'get',
+    })
+      .then((res) => {
+        setNaverSelected(res.data);
+        setShowNaverModalSelected(true);
+        console.log(naverSelected);
+      })
+      .catch((err) => console.log(err));
+  };
+
+  useEffect(() => {
+    return () => {
+      setShowNaverModalSelected(false);
+    };
+  }, []);
+
+  return (
+    <>
+      {showNaverModalSelected ? (
+        <NaverSelected
+          naverSelected={naverSelected}
+          setShowNaverModalSelected={setShowNaverModalSelected}
+        />
+      ) : undefined}
+      <NaverProfile>
+        <button onClick={handleNaverShow}>
+          <NaverProfile.Img alt={name} src={photo} />
+          <NaverProfile.Name>{name}</NaverProfile.Name>
+          <NaverProfile.Role>{role}</NaverProfile.Role>
+        </button>
+        <NaverProfile.Icons>
+          <button onClick={handleDelete}>
+            <TrashIcon />
+          </button>
+          <Link to={`/navers/edit/${id}`}>
+            <EditIcon />
+          </Link>
+        </NaverProfile.Icons>
+      </NaverProfile>
+    </>
+  );
+};
 
 export default NaverItem;

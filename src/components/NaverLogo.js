@@ -5,6 +5,7 @@ import Icon from './Icon';
 const Svg = styled(Icon)`
   width: 14.5rem;
   height: 3.7rem;
+  color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const NaverLogo = ({ className }) => (
