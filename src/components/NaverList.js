@@ -5,6 +5,7 @@ import NaverItem from './NaverItem';
 import Button from './Button';
 import store from '../store/store';
 import { setNaver } from '../axios/instance';
+import LoadingPage from './LoadingPage';
 
 const Navers = styled.section`
   width: 100%;
@@ -34,7 +35,7 @@ Navers.Menu = styled.div`
   @media (max-width: ${({ theme }) => theme.mobile}) {
     flex-direction: column;
     padding: 0 0 ${({ theme }) => theme.spacing.huge} 0;
-    
+
     h2 {
       padding: 0 0 ${({ theme }) => theme.spacing.small} 0;
     }
@@ -47,8 +48,8 @@ Navers.Itens = styled.div`
   column-gap: 2.7%;
 
   @media (max-width: ${({ theme }) => theme.mobile}) {
-  grid-template-columns: 100%;
-  row-gap: ${({ theme }) => theme.spacing.medium};
+    grid-template-columns: 100%;
+    row-gap: ${({ theme }) => theme.spacing.medium};
   }
 `;
 
@@ -58,16 +59,17 @@ const NaverList = () => {
   useEffect(() => {
     if (!state.updated) {
       const result = setNaver();
-      
+
       result
         .then((res) => {
           dispatch({ type: 'SET_NAVER', data: res.data });
-          console.log(res);
         })
         .catch(() => {});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => console.log(state.updated))
 
   return (
     <>
@@ -79,15 +81,19 @@ const NaverList = () => {
           </Link>
         </Navers.Menu>
         <Navers.Itens>
-          {state.navers.map((i) => (
-            <NaverItem
-              key={i.id}
-              photo={i.url}
-              name={i.name}
-              role={i.job_role}
-              {...i}
-            />
-          ))}
+          {!state.updated ? <LoadingPage /> : (
+            <>
+              {state.navers.map((i) => (
+                <NaverItem
+                  key={i.id}
+                  photo={i.url}
+                  name={i.name}
+                  role={i.job_role}
+                  {...i}
+                />
+              ))}
+            </>
+          )}
         </Navers.Itens>
       </Navers>
     </>
