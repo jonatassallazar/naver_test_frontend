@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import NaverItem from './NaverItem';
 import Button from './Button';
-import API from '../axios/instance';
-import { store } from '../App';
+import store from '../store/store';
+import { setNaver } from '../axios/instance';
 
 const Navers = styled.section`
   width: 100%;
@@ -35,44 +35,44 @@ Navers.Itens = styled.div`
 `;
 
 const NaverList = () => {
-  const { navers, setNavers, setUpdated, updated } = useContext(store);
+  const { state, dispatch } = useContext(store);
 
   useEffect(() => {
-    if (!updated) {
-      API({
-        url: '/navers',
-        method: 'get',
-      })
+    if (!state.updated) {
+      const result = setNaver();
+      
+      result
         .then((res) => {
-          setNavers(res.data);
-          setUpdated(true);
-          console.log('run');
+          dispatch({ type: 'SET_NAVER', data: res.data });
+          console.log(res);
         })
-        .catch((err) => console.log(err));
+        .catch(() => {});
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <Navers>
-      <Navers.Menu>
-        <h2>Navers</h2>
-        <Link to="/navers/add">
-          <Button>Adicionar Naver</Button>
-        </Link>
-      </Navers.Menu>
-      <Navers.Itens>
-        {navers.map((i) => (
-          <NaverItem
-            key={i.id}
-            photo={i.url}
-            name={i.name}
-            role={i.job_role}
-            {...i}
-          />
-        ))}
-      </Navers.Itens>
-    </Navers>
+    <>
+      <Navers>
+        <Navers.Menu>
+          <h2>Navers</h2>
+          <Link to="/navers/add">
+            <Button>Adicionar Naver</Button>
+          </Link>
+        </Navers.Menu>
+        <Navers.Itens>
+          {state.navers.map((i) => (
+            <NaverItem
+              key={i.id}
+              photo={i.url}
+              name={i.name}
+              role={i.job_role}
+              {...i}
+            />
+          ))}
+        </Navers.Itens>
+      </Navers>
+    </>
   );
 };
 

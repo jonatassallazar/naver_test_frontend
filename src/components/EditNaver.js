@@ -1,32 +1,33 @@
 import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import NaverForm from './NaverForm';
-import { store } from '../App';
-import API from '../axios/instance';
+import store from '../store/store';
+import { editNaver } from '../axios/instance';
 
 const EditNaver = (props) => {
-  const { navers, setUpdated } = useContext(store);
-  
-  const naverSelected = navers.find((i) => i.id === props.match.params.id)
+  const { state, dispatch } = useContext(store);
 
-  console.log(naverSelected);
+  const naverSelected = state.navers.find(
+    (i) => i.id === props.match.params.id,
+  );
 
   let history = useHistory();
 
   return (
-    <NaverForm naver={naverSelected} onSubmit={(data) => {
-      API({
-        url: `/navers/${naverSelected.id}`,
-        method: 'put',
-        data,
-      })
-        .then((res) => {
-          setUpdated(false);
-          console.log(res);
-        })
-        .catch((err) => console.log(err));
-      history.push('/navers');
-    }}/>
+    <NaverForm
+      naver={naverSelected}
+      onSubmit={(data) => {
+        const result = editNaver(naverSelected.id, data);
+        result
+          .then(() => {
+            history.push('/navers');
+            dispatch({ type: 'EDIT_NAVER' });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }}
+    />
   );
 };
 

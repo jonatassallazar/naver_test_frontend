@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { useReducer } from 'react';
 import GlobalStyle from './components/GlobalStyle';
 import LoginPage from './components/LoginPage';
 import NaversList from './components/NaverList';
@@ -9,22 +9,26 @@ import PrivateRoute from './router/PrivateRoute';
 import PublicRoute from './router/PublicRoute';
 import AddNaver from './components/AddNaver';
 import EditNaver from './components/EditNaver';
-
-const initialState = {
-  bearer: '',
-  navers: [],
-};
-
-export const store = createContext(initialState);
+import store, { reducer, initialState } from './store/store';
+import ModalPage from './components/ModalPage';
 
 const App = () => {
-  const [navers, setNavers] = useState([]);
-  const [updated, setUpdated] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      <store.Provider value={{ navers, setNavers, updated, setUpdated }}>
+      <store.Provider value={{ state, dispatch }}>
+            {state.showModal && (
+              <ModalPage
+                showModal={state.showModal}
+                title={state.modalInfo.title}
+                description={state.modalInfo.description}
+                buttonPrimary={state.modalInfo.buttonPrimary}
+                buttonSecondary={state.modalInfo.buttonSecondary}
+                closeButton={state.modalInfo.closeButton}
+              />
+            )}
         <BrowserRouter>
           <Switch>
             <PublicRoute exact path="/" component={LoginPage} />

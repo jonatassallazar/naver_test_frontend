@@ -1,19 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { CloseIcon } from './Icon';
 import Button from './Button';
+import store from '../store/store';
 
 const Modal = styled.div`
   background: ${({ theme }) => theme.colors.bgHover};
   width: 100%;
   height: 100%;
   position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   left: 0;
   top: 0;
-  z-index: 5;
+  z-index: 2;
 `;
 
 Modal.Content = styled.div`
@@ -21,8 +19,12 @@ Modal.Content = styled.div`
   background: ${({ theme }) => theme.colors.bg};
   display: flex;
   flex-direction: column;
-  position: relative;
+  position: absolute;
   padding: ${({ theme }) => theme.spacing.medium} ${({ theme }) => theme.spacing.large};
+  z-index: 6;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 Modal.Title = styled.h2`
@@ -43,6 +45,7 @@ Modal.Close = styled.div`
   position: absolute;
   right: 2rem;
   top: 2rem;
+  cursor: pointer;
 
   svg {
     width: 1.4rem;
@@ -62,32 +65,45 @@ Modal.Buttons = styled.div`
   }
 `;
 
-const ModalPage = ({
-  title,
-  description,
-  buttonPrimary,
-  buttonSecondary,
-  closeButton = true,
-}) => (
-  <Modal>
-    <Modal.Content>
-      {closeButton && (
-        <Modal.Close>
-          <CloseIcon />
-        </Modal.Close>
-      )}
-      {title && <Modal.Title>{title}</Modal.Title>}
-      {description && <Modal.Description>{description}</Modal.Description>}
-      {buttonPrimary || buttonSecondary ? (
-        <Modal.Buttons>
-          {buttonSecondary && (
-            <Button.Outlined>{buttonSecondary}</Button.Outlined>
-          )}
-          {buttonPrimary && <Button>{buttonPrimary}</Button>}
-        </Modal.Buttons>
-      ) : undefined}
-    </Modal.Content>
-  </Modal>
-);
+const ModalPage = () => {
+  const { state, dispatch } = useContext(store);
+
+  const handleClose = () => {
+    dispatch({ type: 'CLOSE_MODAL' });
+  };
+
+  return (
+    <>
+      <Modal.Content>
+        {state.modalInfo.closeButton && (
+          <Modal.Close onClick={handleClose}>
+            <CloseIcon />
+          </Modal.Close>
+        )}
+        {state.modalInfo.title && (
+          <Modal.Title>{state.modalInfo.title}</Modal.Title>
+        )}
+        {state.modalInfo.description && (
+          <Modal.Description>{state.modalInfo.description}</Modal.Description>
+        )}
+        {state.modalInfo.buttonPrimary || state.modalInfo.buttonSecondary ? (
+          <Modal.Buttons>
+            {state.modalInfo.buttonSecondary && (
+              <Button.Outlined onClick={state.modalInfo.actionButtonSecondary}>
+                {state.modalInfo.buttonSecondary}
+              </Button.Outlined>
+            )}
+            {state.modalInfo.buttonPrimary && (
+              <Button onClick={state.modalInfo.actionButtonPrimary}>
+                {state.modalInfo.buttonPrimary}
+              </Button>
+            )}
+          </Modal.Buttons>
+        ) : undefined}
+      </Modal.Content>
+      <Modal onClick={handleClose} />
+    </>
+  );
+};
 
 export default ModalPage;

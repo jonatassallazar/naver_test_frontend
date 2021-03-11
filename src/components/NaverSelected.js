@@ -1,18 +1,15 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import API from '../axios/instance';
 import { TrashIcon, EditIcon, CloseIcon } from './Icon';
 import moment from 'moment';
+import store from '../store/store';
 
 const NaverModal = styled.div`
   background: ${({ theme }) => theme.colors.bgHover};
   width: 100%;
   height: 100%;
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: fixed;
   left: 0;
   top: 0;
 `;
@@ -21,7 +18,11 @@ NaverModal.Content = styled.div`
   width: 80%;
   display: flex;
   flex-direction: row;
-  position: relative;
+  position: absolute;
+  z-index: 6;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 NaverModal.Data = styled.div`
@@ -94,50 +95,50 @@ NaverModal.Icons = styled.div`
   }
 `;
 
-const NaverSelected = ({naverSelected, setShowNaverModalSelected}) => {
+const NaverSelected = ({ naverSelected, setShowNaverModalSelected }) => {
+  const { dispatch } = useContext(store);
 
   const handleDelete = () => {
-    API({
-      url: `/navers/${naverSelected.id}`,
-      method: 'delete',
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+    dispatch({
+      type: 'CONFIRMATION_DELETE_NAVER',
+      id: naverSelected.id,
+      dispatch,
+    });
   };
 
   const handleClose = () => {
     setShowNaverModalSelected(false);
-  }
+  };
 
   return (
-  <NaverModal onClick={handleClose}>
-    <NaverModal.Content>
-      <NaverModal.Img alt={naverSelected.name} src={naverSelected.url} />
-      <NaverModal.Data>
-        <NaverModal.Close onClick={handleClose}>
-          <CloseIcon />
-        </NaverModal.Close>
-        <NaverModal.Name>{naverSelected.name}</NaverModal.Name>
-        <NaverModal.Role>{naverSelected.job_role}</NaverModal.Role>
-        <h4>Idade</h4>
-        <h5>{moment(naverSelected.birthdate).format('DD/MM/YYYY')}</h5>
-        <h4>Tempo de Empresa</h4>
-        <h5>{moment(naverSelected.admission_date).format('DD/MM/YYYY')}</h5>
-        <h4>Projetos que participou</h4>
-        <h5>{naverSelected.project}</h5>
-        <NaverModal.Icons>
-          <button onClick={handleDelete}>
-            <TrashIcon />
-          </button>
-          <Link to={`/navers/edit/${naverSelected.id}`}>
-            <EditIcon />
-          </Link>
-        </NaverModal.Icons>
-      </NaverModal.Data>
-    </NaverModal.Content>
-  </NaverModal>
-)};
+    <>
+      <NaverModal.Content>
+        <NaverModal.Img alt={naverSelected.name} src={naverSelected.url} />
+        <NaverModal.Data>
+          <NaverModal.Close onClick={handleClose}>
+            <CloseIcon />
+          </NaverModal.Close>
+          <NaverModal.Name>{naverSelected.name}</NaverModal.Name>
+          <NaverModal.Role>{naverSelected.job_role}</NaverModal.Role>
+          <h4>Idade</h4>
+          <h5>{moment(naverSelected.birthdate).format('DD/MM/YYYY')}</h5>
+          <h4>Tempo de Empresa</h4>
+          <h5>{moment(naverSelected.admission_date).format('DD/MM/YYYY')}</h5>
+          <h4>Projetos que participou</h4>
+          <h5>{naverSelected.project}</h5>
+          <NaverModal.Icons>
+            <button onClick={handleDelete}>
+              <TrashIcon />
+            </button>
+            <Link to={`/navers/edit/${naverSelected.id}`}>
+              <EditIcon />
+            </Link>
+          </NaverModal.Icons>
+        </NaverModal.Data>
+      </NaverModal.Content>
+      <NaverModal onClick={handleClose} />
+    </>
+  );
+};
 
 export default NaverSelected;

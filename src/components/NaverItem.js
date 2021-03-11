@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { TrashIcon, EditIcon } from './Icon';
 import API from '../axios/instance';
 import NaverSelected from './NaverSelected';
+import store from '../store/store';
 
 const NaverProfile = styled.div`
   display: flex;
@@ -67,16 +68,10 @@ NaverProfile.Icons = styled.div`
 const NaverItem = ({ id, photo, name, role }) => {
   const [showNaverModalSelected, setShowNaverModalSelected] = useState(false);
   const [naverSelected, setNaverSelected] = useState('');
+  const { dispatch } = useContext(store);
 
   const handleDelete = () => {
-    API({
-      url: `/navers/${id}`,
-      method: 'delete',
-    })
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+    dispatch({ type: 'CONFIRMATION_DELETE_NAVER', id, dispatch});
   };
 
   const handleNaverShow = () => {
