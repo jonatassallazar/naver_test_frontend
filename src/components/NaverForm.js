@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import InputMask from 'react-input-mask';
 import { Input } from './Input';
 import { BackIcon } from './Icon';
 import Button from './Button';
@@ -20,7 +21,8 @@ const Form = styled.form`
   @media (max-width: ${({ theme }) => theme.mobile}) {
     flex-direction: column;
     width: 100%;
-    padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.medium};
+    padding: ${({ theme }) => theme.spacing.small}
+      ${({ theme }) => theme.spacing.medium};
   }
 `;
 
@@ -70,13 +72,15 @@ Form.Button = styled.div`
 const NaverForm = (props) => {
   const [name, setName] = useState(props.naver ? props.naver.name : '');
   const [role, setRole] = useState(props.naver ? props.naver.job_role : '');
-  const [age, setAge] = useState(props.naver ? 
-    moment(props.naver.birthdate).format('DD/MM/YYYY') : '',
+  const [age, setAge] = useState(
+    props.naver ? moment(props.naver.birthdate).format('DD/MM/YYYY') : '',
   );
-  const [companyTime, setCompanyTime] = useState(props.naver ? 
-    moment(props.naver.birthdate).format('DD/MM/YYYY') : '',
+  const [companyTime, setCompanyTime] = useState(
+    props.naver ? moment(props.naver.birthdate).format('DD/MM/YYYY') : '',
   );
-  const [projects, setProjects] = useState(props.naver ? props.naver.project : '');
+  const [projects, setProjects] = useState(
+    props.naver ? props.naver.project : '',
+  );
   const [photoUrl, setPhotoUrl] = useState(props.naver ? props.naver.url : '');
 
   const handleSubmit = (e) => {
@@ -117,20 +121,26 @@ const NaverForm = (props) => {
         />
       </Form.Input>
       <Form.Input>
-        <Input
+        <InputMask
+          mask="99/99/9999"
           placeholder="Idade"
           label="Idade"
           value={age}
           onChange={(e) => setAge(e.target.value)}
-        />
+        >
+          {(inputProps) => <Input {...inputProps} />}
+        </InputMask>
       </Form.Input>
       <Form.Input>
-        <Input
-          placeholder="Tempo de Empresa"
-          label="Tempo de Empresa"
+        <InputMask
+          mask="99/99/9999"
           value={companyTime}
           onChange={(e) => setCompanyTime(e.target.value)}
-        />
+          placeholder="Tempo de Empresa"
+          label="Tempo de Empresa"
+        >
+          {(inputProps) => <Input {...inputProps} />}
+        </InputMask>
       </Form.Input>
       <Form.Input>
         <Input
