@@ -16,6 +16,7 @@ const theme = {
     huge: '6rem'
   },
   fontFamily: 'Montserrat',
+  mobile: '768px',
 };
 
 export default theme;

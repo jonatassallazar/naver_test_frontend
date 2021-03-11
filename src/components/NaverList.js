@@ -11,6 +11,10 @@ const Navers = styled.section`
   padding: ${({ theme }) => theme.spacing.large};
   display: flex;
   flex-direction: column;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    padding: ${({ theme }) => theme.spacing.medium};
+  }
 `;
 
 Navers.Menu = styled.div`
@@ -26,12 +30,26 @@ Navers.Menu = styled.div`
     line-height: 4.8rem;
     margin: 0;
   }
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    flex-direction: column;
+    padding: 0 0 ${({ theme }) => theme.spacing.huge} 0;
+    
+    h2 {
+      padding: 0 0 ${({ theme }) => theme.spacing.small} 0;
+    }
+  }
 `;
 
 Navers.Itens = styled.div`
   display: inline-grid;
   grid-template-columns: 23% 23% 23% 23%;
   column-gap: 2.7%;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+  grid-template-columns: 100%;
+  row-gap: ${({ theme }) => theme.spacing.medium};
+  }
 `;
 
 const NaverList = () => {

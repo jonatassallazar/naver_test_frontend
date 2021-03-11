@@ -31,6 +31,12 @@ LoginComp.Modal = styled.div`
     width: 23.5rem;
     height: 6rem;
   }
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 90%;
+    height: 60%;
+    padding: ${({ theme }) => theme.spacing.medium};
+  }
 `;
 
 const LoginPage = () => {

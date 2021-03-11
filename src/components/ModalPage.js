@@ -15,16 +15,22 @@ const Modal = styled.div`
 `;
 
 Modal.Content = styled.div`
-  width: 50%;
+  width: 60%;
   background: ${({ theme }) => theme.colors.bg};
   display: flex;
   flex-direction: column;
-  position: absolute;
+  position: fixed;
   padding: ${({ theme }) => theme.spacing.medium} ${({ theme }) => theme.spacing.large};
   z-index: 6;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    text-align: center;
+    width: 90%;
+    padding: ${({ theme }) => theme.spacing.large} ${({ theme }) => theme.spacing.small};
+  }
 `;
 
 Modal.Title = styled.h2`
@@ -39,6 +45,10 @@ Modal.Description = styled.p`
   font-size: 1.6rem;
   line-height: 3.6rem;
   margin: 0 0 ${({ theme }) => theme.spacing.small} 0;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    line-height: 1;
+  }
 `;
 
 Modal.Close = styled.div`
@@ -62,6 +72,13 @@ Modal.Buttons = styled.div`
   button {
     margin: 0 ${({ theme }) => theme.spacing.small};
     width: fit-content;
+  }
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    button {
+    width: 100%;
+    margin: ${({ theme }) => theme.spacing.tiny};
+    }
   }
 `;
 

@@ -12,6 +12,10 @@ const HeaderMain = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    padding: ${({ theme }) => theme.spacing.medium};
+  }
 `;
 
 const Header = () => {

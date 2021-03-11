@@ -16,6 +16,12 @@ const Form = styled.form`
   align-items: center;
   justify-content: space-between;
   position: relative;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    flex-direction: column;
+    width: 100%;
+    padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.medium};
+  }
 `;
 
 Form.Header = styled.div`
@@ -34,6 +40,10 @@ Form.Header = styled.div`
     font-weight: 600;
     font-size: 2.4rem;
     line-height: 3.6rem;
+    margin: ${({ theme }) => theme.spacing.small} 0;
+  }
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
     margin: 0;
   }
 `;
@@ -41,12 +51,20 @@ Form.Header = styled.div`
 Form.Input = styled.div`
   width: 48%;
   margin-bottom: ${({ theme }) => theme.spacing.medium};
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 100%;
+  }
 `;
 
 Form.Button = styled.div`
   position: absolute;
   right: 0;
   bottom: -5rem;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    padding-right: ${({ theme }) => theme.spacing.medium};
+  }
 `;
 
 const NaverForm = (props) => {

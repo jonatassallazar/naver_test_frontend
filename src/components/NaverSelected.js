@@ -18,11 +18,17 @@ NaverModal.Content = styled.div`
   width: 80%;
   display: flex;
   flex-direction: row;
-  position: absolute;
+  position: fixed;
   z-index: 6;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    flex-direction: column;
+    width: 100%;
+    padding: ${({ theme }) => theme.spacing.medium};
+  }
 `;
 
 NaverModal.Data = styled.div`
@@ -43,10 +49,19 @@ NaverModal.Data = styled.div`
     line-height: 2.4rem;
     margin: ${({ theme }) => theme.spacing.small} 0 0 0;
   }
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 100%;
+    padding: ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.small} ${({ theme }) => theme.spacing.huge};
+  }
 `;
 
 NaverModal.Img = styled.img`
   width: 50%;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    width: 100%;
+  }
 `;
 
 NaverModal.Close = styled.button`
@@ -59,6 +74,14 @@ NaverModal.Close = styled.button`
 
   svg {
     width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    padding: 0.8rem 0.8rem 0.6rem;
+    margin: ${({ theme }) => theme.spacing.small};
+    background: white;
+    border-radius: 50%;
   }
 `;
 
@@ -67,6 +90,10 @@ NaverModal.Name = styled.h2`
   font-size: 2.4rem;
   line-height: 3.6rem;
   margin: ${({ theme }) => theme.spacing.small} 0 0 0;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    margin: 0;
+  }
 `;
 
 NaverModal.Role = styled.p`
@@ -75,6 +102,10 @@ NaverModal.Role = styled.p`
   line-height: 2.4rem;
   margin: ${({ theme }) => theme.spacing.small} 0
     ${({ theme }) => theme.spacing.large} 0;
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    margin: 0;
+  }
 `;
 
 NaverModal.Icons = styled.div`
@@ -92,6 +123,10 @@ NaverModal.Icons = styled.div`
     margin-right: ${({ theme }) => theme.spacing.small};
     color: ${({ theme }) => theme.colors.primary};
     cursor: pointer;
+  }
+
+  @media (max-width: ${({ theme }) => theme.mobile}) {
+    padding-bottom: ${({ theme }) => theme.spacing.small};
   }
 `;
 
